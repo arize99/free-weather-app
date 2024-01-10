@@ -1,5 +1,6 @@
-// search form, city, humidity, wind, pressure
+// search form, search input, city, humidity, wind, pressure
 const weatherSearch = document.querySelector('.weather__search');
+const weatherSearchInput = document.querySelector('.weather__searchinput');
 const weatherCity = document.querySelector('.weather__city');
 const weatherHumidity = document.querySelector('.weather__humidity');
 const weatherWind = document.querySelector('.weather__wind');
@@ -20,23 +21,35 @@ const errorMessage = document.getElementById("errorMessage")
 weatherSearch.addEventListener("submit", function(event) {
     //prevent page refresh on form submission
     event.preventDefault();
-    //calling api function with user input location
-    getCurrentWeather(event.target[0].value);
-
+    //Validation check to see if input was empty
+    if (event.target[0].value != ""){
+        getCurrentWeather(event);
+    }else{
+        errorMessage.innerHTML = "Please input a city name";
+        setTimeout(()=> errorMessage.innerHTML = "", 3000);
+    }
 });
 
 //API call
-const getCurrentWeather = (location) => {
+const getCurrentWeather = (event) => {
+    const location = event.target[0].value
+    
     //search by city is deprecated but still works
     axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`)
     .then((response) => {
+        
+        console.log("🚀 ~ getCurrentWeather ~ event:", event)
         weatherData = response.data;
-        console.log("🚀 ~ .then ~ weatherData:", weatherData)
         displayWeatherData(weatherData);
     })
     .catch((error) => {
+        //show error message
         errorMessage.innerHTML = "Please input a valid city name";
-        setTimeout(()=>errorMessage.innerHTML = "", 5000);
+        //clearing out input box
+        weatherSearchInput.value= ""
+        //Remove error message after 5 seconds
+        setTimeout(()=> errorMessage.innerHTML = "", 5000);
+
     }); //TODO: Expanded Error Handling for failed api calls 
 };
 
@@ -59,7 +72,7 @@ const convertTempToF = () =>{
     for (let i = 0; i < allTempElements.length; i++){
         const element = allTempElements[i];
         let convertedTemp = Math.floor((parseInt(tempArr[i]) - 273.15) * 1.8 + 32);
-        element.innerHTML = String(convertedTemp) + "°";
+        element.innerHTML = String(convertedTemp) + "°F";
     }
     
 }
@@ -68,6 +81,6 @@ const convertTempToC = (temp) =>{
     for (let i = 0; i < allTempElements.length; i++){
         const element = allTempElements[i];
         let convertedTemp = Math.floor((parseInt(tempArr[i]) - 273.15));
-        element.innerHTML = String(convertedTemp) + "°";
+        element.innerHTML = String(convertedTemp) + "°C";
     }
 }
