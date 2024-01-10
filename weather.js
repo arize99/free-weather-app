@@ -34,7 +34,8 @@ const allTempElements = document.querySelectorAll('.temps');
 
 // api key
 const apiKey = "" //api key here 
-
+//Error Message for error handling 
+const errorMessage = document.getElementById("errorMessage")
 // the above is a good start,
 // but we need to get the data
 // from the API and put it in
@@ -64,7 +65,10 @@ const getCurrentWeather = (location) => {
         weatherData = response.data;
         displayWeatherData(weatherData);
     })
-    .catch((error) => console.error(error)); //TODO: Error Handling for typos 
+    .catch((error) => {
+        errorMessage.innerHTML = "Please input a valid city name"
+        setTimeout(()=>errorMessage.innerHTML = "", 5000);
+    }); //TODO: Expanded Error Handling for typos 
 };
 
 const displayWeatherData = (weatherData) => {
