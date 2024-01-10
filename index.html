@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="weather__header">
-            <form id="weather_search" class="weather__search" onsubmit= "currentWeather(this)">
+            <form id="weather_search" class="weather__search">
                 <input type="text" placeholder="Search for a city..." class="weather__searchform">
                 <button>
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -33,8 +33,8 @@
             <p class="weather__temperature temps">
             </p>
             <div class="weather__minmax">
-                <p>Min: <span class="temps">12</span></p>
-                <p>Max: <span class="temps">16</span></p>
+                <p>Min: <span class="temps"></span></p>
+                <p>Max: <span class="temps"></span></p>
             </div>
         </div>
 
@@ -43,28 +43,28 @@
                 <i class="fa-solid fa-temperature-full"></i>
                 <div>
                     <p>Feels Like</p>
-                    <p class="weather__realfeel"><span class="temps">18</span></p>
+                    <p class="weather__realfeel"><span class="temps"></span></p>
                 </div>
             </div>
             <div class="weather__card">
                 <i class="fa-solid fa-droplet"></i>
                 <div>
                     <p>Humidity</p>
-                    <p class="weather__humidity"><span></span>%</p>
+                    <p class="weather__humidity"></p>
                 </div>
             </div>
             <div class="weather__card">
                 <i class="fa-solid fa-wind"></i>
                 <div>
                     <p>Wind</p>
-                    <p class="weather__wind"><span></span> ms</p>
+                    <p class="weather__wind"></p>
                 </div>
             </div>
             <div class="weather__card">
                 <i class="fa-solid fa-gauge-high"></i>
                 <div>
                     <p>Pressure</p>
-                    <p class="weather__pressure"><span></span> hPa</p>
+                    <p class="weather__pressure"></p>
                 </div>
             </div>
         </div>
