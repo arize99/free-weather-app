@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "server": "nodemon server/server.js",
-        "client": "npm start --prefix frontend",
+        "client": "npm run dev --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "author": "['jameydev', 'arize99', 'SarahMarie73', 'cyberz3r0']",
