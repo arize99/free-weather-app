@@ -1,0 +1,22 @@
+{
+    "name": "free-weather-app",
+    "version": "1.0.0",
+    "description": "Free weather app FOSS project for developers new to open source",
+    "main": "index.js",
+    "scripts": {
+        "server": "nodemon server/server.js",
+        "client": "npm run dev --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "author": "['jameydev', 'arize99', 'SarahMarie73', 'cyberz3r0']",
+    "license": "ISC",
+    "dependencies": {
+        "colors": "^1.4.0",
+        "concurrently": "^8.2.2",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.2"
+    }
+}

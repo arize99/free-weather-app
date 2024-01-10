@@ -1,0 +1,25 @@
+# Ignore all by default
+*
+
+# Explicitly ignore
+node_modules/
+*/node_modules/**/*
+.env
+.history
+.idea
+.vscode
+
+# Unignore needed files
+!*.js
+!*.css
+!*.html
+!README.md
+!package.json
+!package-lock.json
+!.gitignore
+
+# unignore directories
+!server/
+!server/**/*
+!client/
+!client/**/*
