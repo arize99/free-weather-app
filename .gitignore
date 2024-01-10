@@ -21,4 +21,5 @@ node_modules/
 # unignore directories
 !server/
 !server/**/*
+!client/
 !client/**/*
