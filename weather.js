@@ -33,7 +33,7 @@ let tempArr = []
 const allTempElements = document.querySelectorAll('.temps');
 
 // api key
-const apiKey = "52195f64d9b7a2453feaebbb2cd5e69b" //api key here 
+const apiKey = "" //api key here 
 
 // the above is a good start,
 // but we need to get the data
