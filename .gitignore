@@ -3,6 +3,7 @@
 
 # Explicitly ignore
 node_modules/
+*/node_modules/**/*
 .env
 .history
 .idea
@@ -16,3 +17,8 @@ node_modules/
 !package.json
 !package-lock.json
 !.gitignore
+
+# unignore directories
+!server/
+!server/**/*
+!client/**/*
