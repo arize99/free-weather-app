@@ -10,19 +10,17 @@
 <body>
     <div class="container">
         <div class="weather__header">
-            <form id="weather_search" class="weather__search">
-                <input type="text" placeholder="Search for a city..." class="weather__searchinput">
-                <button>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <span id="errorMessage"></span>
-            </form>
+            <form class="weather__search">
+                <input type="text" placeholder="Search for a city..." class="weather__searchform">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </form> 
             <div class="weather__units">
                 <span class="weather_unit_celsius" onclick="convertTempToC()">&#176C</span>
                 <span class="weather_unit_farenheit" onclick="convertTempToF()">&#176F</span>
             </div>
         </div>
         <div class="weather__body">
+            <p id="errorMessage"></p>
             <h1 class="weather__city"></h1>
             <div class="weather__datetime">
             </div>
@@ -41,7 +39,7 @@
             <div class="weather__card">
                 <i class="fa-solid fa-temperature-full"></i>
                 <div>
-                    <p>Feels Like</p>
+                    <p>Real Feel</p>
                     <p class="weather__realfeel"><span class="temps"></span></p>
                 </div>
             </div>
@@ -49,32 +47,26 @@
                 <i class="fa-solid fa-droplet"></i>
                 <div>
                     <p>Humidity</p>
-                    <p class="weather__humidity"></p>
+                    <p class="weather__humidity">18&#176</p>
                 </div>
             </div>
             <div class="weather__card">
                 <i class="fa-solid fa-wind"></i>
                 <div>
                     <p>Wind</p>
-                    <p class="weather__wind"></p>
+                    <p class="weather__wind">18&#176</p>
                 </div>
             </div>
             <div class="weather__card">
                 <i class="fa-solid fa-gauge-high"></i>
                 <div>
                     <p>Pressure</p>
-                    <p class="weather__pressure"></p>
+                    <p class="weather__pressure">18&#176</p>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://kit.fontawesome.com/a692e1c39f.js" crossorigin="anonymous"></script>
-<<<<<<< HEAD
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="weather.js"></script>
-
-=======
-    <script src="weather.js"></script>
->>>>>>> main
 </body>
 </html>

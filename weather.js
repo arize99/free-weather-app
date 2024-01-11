@@ -1,14 +1,10 @@
 // File: weather.js
 // Author: Jamey Bryce
-// Contributor: Arize Nnonyelu
+// Contributor: Arize Nnonyelu, Samuel Reid
 // Purpose: Frontend JS
 // for displaying weather
 
-// state
-let currCity = "Awka";
-let units = "metric";
-
-// Selectors
+// search form, search input, city, humidity, wind, pressure
 let city = document.querySelector(".weather__city");
 let datetime = document.querySelector(".weather__datetime");
 let weather__forecast = document.querySelector('.weather__forecast');
@@ -19,82 +15,147 @@ let weather__realfeel = document.querySelector('.weather__realfeel');
 let weather__humidity = document.querySelector('.weather__humidity');
 let weather__wind = document.querySelector('.weather__wind');
 let weather__pressure = document.querySelector('.weather__pressure');
+const weatherSearch = document.querySelector('.weather__search');
+const weatherSearchInput = document.querySelector('.weather__searchinput');
+const weatherCity = document.querySelector('.weather__city');
+const weatherHumidity = document.querySelector('.weather__humidity');
+const weatherWind = document.querySelector('.weather__wind');
+const weatherPressure = document.querySelector('.weather__pressure');
 
-// search
-document.querySelector(".weather__search").addEventListener('submit', e => {
-    let search = document.querySelector(".weather__searchform");
-    // prevent default action
-    e.preventDefault();
-    // change current city
-    currCity = search.value;
-    // get weather forecast 
-    getWeather();
-    // clear form
-    search.value = ""
-})
+//storing all temperatures that need to be changed from Api Lines 87-90
+let tempArr = []
 
-// units
-document.querySelector(".weather_unit_celsius").addEventListener('click', () => {
-    if(units !== "metric"){
-        // change to metric
-        units = "metric"
-        // get weather forecast 
-        getWeather()
+//Added a new class called temps in HTML to all temperatures that will need converting
+const allTempElements = document.querySelectorAll('.temps');
+
+//Saving API Weather Data
+let weatherData = {}
+
+// api key
+const apiKey = "64f60853740a1ee3ba20d0fb595c97d5" //api key here 
+
+//Error Message for error handling 
+const errorMessage = document.getElementById("errorMessage")
+
+weatherSearch.addEventListener("submit", function(event) {
+    //prevent page refresh on form submission
+    event.preventDefault();
+    //Validation check to see if input was empty
+    if (event.target[0].value != ""){
+        getWeather(event);
+    }else{
+        errorMessage.innerHTML = "Please input a city name";
+        setTimeout(()=> errorMessage.innerHTML = "", 3000);
     }
-})
-
-document.querySelector(".weather_unit_farenheit").addEventListener('click', () => {
-    if(units !== "imperial"){
-        // change to imperial
-        units = "imperial"
-        // get weather forecast 
-        getWeather()
-    }
-})
+});
 
 function convertTimeStamp(timestamp, timezone){
-     const convertTimezone = timezone / 3600; // convert seconds to hours 
+    const convertTimezone = timezone / 3600; // convert seconds to hours 
 
     const date = new Date(timestamp * 1000);
-    
+
     const options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        timeZone: `Etc/GMT${convertTimezone >= 0 ? "-" : "+"}${Math.abs(convertTimezone)}`,
-        hour12: true,
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: `Etc/GMT${convertTimezone >= 0 ? "-" : "+"}${Math.abs(convertTimezone)}`,
+    hour12: true,
     }
     return date.toLocaleString("en-US", options)
-   
 }
 
- 
-
 // convert country code to name
-function convertCountryCode(country){
+const convertCountryCode = country =>{
     let regionNames = new Intl.DisplayNames(["en"], {type: "region"});
     return regionNames.of(country)
 }
 
-function getWeather(){
-    const API_KEY = '64f60853740a1ee3ba20d0fb595c97d5'
 
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=${currCity}&appid=${API_KEY}&units=${units}`).then(res => res.json()).then(data => {
-    console.log(data)
-    city.innerHTML = `${data.name}, ${convertCountryCode(data.sys.country)}`
-    datetime.innerHTML = convertTimeStamp(data.dt, data.timezone); 
-    weather__forecast.innerHTML = `<p>${data.weather[0].main}`
-    weather__temperature.innerHTML = `${data.main.temp.toFixed()}&#176`
-    weather__icon.innerHTML = `   <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png" />`
-    weather__minmax.innerHTML = `<p>Min: ${data.main.temp_min.toFixed()}&#176</p><p>Max: ${data.main.temp_max.toFixed()}&#176</p>`
-    weather__realfeel.innerHTML = `${data.main.feels_like.toFixed()}&#176`
-    weather__humidity.innerHTML = `${data.main.humidity}%`
-    weather__wind.innerHTML = `${data.wind.speed} ${units === "imperial" ? "mph": "m/s"}` 
-    weather__pressure.innerHTML = `${data.main.pressure} hPa`
-})
+//get location
+const getLocation = () => {
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoFail);
+}
+//Location success
+const geoSuccess = position => {
+    
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    getCurrentWeather(lon, lat);
+}
+//Location Failed
+const geoFail = position => {
+    
+    errorMessage.innerHTML = "Couldn't find your location";
+    setTimeout(()=> errorMessage.innerHTML = "", 3000);
 }
 
-document.body.addEventListener('load', getWeather())
+//get unit measurement
+const unitChange = location => {
+    location === "US" ? units = "imperial" : units = "metric";
+} 
+
+//Current user location Api call
+const getCurrentWeather = (lon, lat) => {
+    
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`).then(res => res.json())
+    .then(res => {
+        weatherData = res
+        displayWeatherData(res);
+    })
+    
+};
+
+//User Input Api call
+const getWeather = event =>{
+    const currCity = event.target[0].value
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${currCity}&appid=${apiKey}`).then(res => res.json())
+    .then(res => {
+        weatherData = res
+        displayWeatherData(res);
+        
+    })
+}
+
+const displayWeatherData = (res_data) => {
+    unitChange(res_data.sys.country)
+    weatherCity.innerHTML = `${res_data.name}, ${convertCountryCode(res_data.sys.country)}`;
+    datetime.innerHTML = convertTimeStamp(res_data.dt, res_data.timezone);
+    weather__forecast.innerHTML = `<p>${res_data.weather[0].main}`
+    weather__icon.innerHTML = `<img src="http://openweathermap.org/img/wn/${res_data.weather[0].icon}@4x.png" />`
+    weatherHumidity.innerHTML = res_data.main.humidity + " %"; 
+    weatherPressure.innerHTML = res_data.main.pressure + " hPa";
+    
+    
+    /*Values are pushed in the order they appear in the HTML structure. If the order changes,
+    data will be inaccurate as QuerySelectorAll has them in HTML structure order.*/
+    tempArr.push(res_data.main.temp);
+    tempArr.push(res_data.main.temp_min);
+    tempArr.push(res_data.main.temp_max);
+    tempArr.push(res_data.main.feels_like);
+    res_data.sys.country === "US" ? convertTempToF()  : convertTempToC();
+}
+//Convert Api data from Kelvin to Fahrenheit
+const convertTempToF = () =>{
+    for (let i = 0; i < allTempElements.length; i++){
+        const element = allTempElements[i];
+        let convertedTemp = Math.floor((parseInt(tempArr[i]) - 273.15) * 1.8 + 32);
+        element.innerHTML = String(convertedTemp) + "°F";
+    }
+    //converting to mph from m/s
+    weatherWind.innerHTML = Math.floor(parseInt(weatherData.wind.speed) * 2.237) + " mph";
+    
+    
+}
+//Convert Api data from Kelvin to Celsius
+const convertTempToC = () =>{
+    for (let i = 0; i < allTempElements.length; i++){
+        const element = allTempElements[i];
+        let convertedTemp = Math.floor((parseInt(tempArr[i]) - 273.15));
+        element.innerHTML = String(convertedTemp) + "°C";
+    }
+    weatherWind.innerHTML = weatherData.wind.speed + " m/s";
+}
+document.body.addEventListener('load', getLocation())
