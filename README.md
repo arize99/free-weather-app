@@ -8,4 +8,4 @@ This project will include API integration from <a href="https://openweathermap.o
 <p>Another shout out to <a href="https://github.com/jameydev"> JameyDev</a> for adding the first JavaScript.</p>
 <p>A creative shout out to <a href="https://github.com/cyberz3r0"> Samuel Reid</a> for adding GeoLocation feature to the app.</p>
 
-There are still a lot of contributions to be made, from favicon for designers to more robust CSS and Javscript features.
+There are still a lot of contributions to be made, from favicon for designers to more robust CSS and JavaScript features.
