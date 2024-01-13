@@ -15,22 +15,23 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </form> 
             <div class="weather__units">
-                <span class="weather_unit_celsius">&#176C</span>
-                <span class="weather_unit_farenheit">&#176F</span>
+                <span class="weather_unit_celsius" onclick="convertTempToC()">&#176C</span>
+                <span class="weather_unit_farenheit" onclick="convertTempToF()">&#176F</span>
             </div>
         </div>
         <div class="weather__body">
+            <p id="errorMessage"></p>
             <h1 class="weather__city"></h1>
             <div class="weather__datetime">
             </div>
             <div class="weather__forecast"></div>
             <div class="weather__icon">
             </div>
-            <p class="weather__temperature">
+            <p class="weather__temperature temps">
             </p>
             <div class="weather__minmax">
-                <p>Min: 12&#176</p>
-                <p>Max: 16&#176</p>
+                <p>Min: <span class="temps"></span></p>
+                <p>Max: <span class="temps"></span></p>
             </div>
         </div>
 
@@ -39,7 +40,7 @@
                 <i class="fa-solid fa-temperature-full"></i>
                 <div>
                     <p>Real Feel</p>
-                    <p class="weather__realfeel">18&#176</p>
+                    <p class="weather__realfeel"><span class="temps"></span></p>
                 </div>
             </div>
             <div class="weather__card">
